@@ -1,16 +1,16 @@
 from django.db import models
 
-class Create_preـregistration(models.Model):
+class PreRegistration(models.Model):
     subject=models.CharField(max_length=250)
     price=models.PositiveIntegerField(default=None)
-    school=models.CharField(max_length=150)
     Created_at=models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.subject
-
-class main(models.Model):
-    pre=models.ForeignKey(Create_preـregistration,on_delete=models.CASCADE)
+        st=self.id
+        stri=str(st)
+        return stri
+class MainForm(models.Model):
+    pre=models.ForeignKey(PreRegistration,on_delete=models.CASCADE)
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     mobile_phone = models.CharField(max_length=11, unique=True)
@@ -21,49 +21,26 @@ class main(models.Model):
     father_name=models.CharField(max_length=150)
     father_phone_number=models.CharField(max_length=11, unique=True)
 
-class extra_qu(models.Model):
+class ExtraQu(models.Model):
     TYPE_CHOISES = (
         ('1', 'Multiple options'),
         ('2', 'Descriptive '),
-        ('3', 'File'),
-        ('4', 'Data')
+        ('3', 'Date')
     )
-    form_id=models.ForeignKey(Create_preـregistration,on_delete=models.CASCADE)
+    form_id=models.ForeignKey(PreRegistration,on_delete=models.CASCADE)
     type_qu=models.TextField(max_length=1, choices=TYPE_CHOISES,default='2',null=False)
     text=models.CharField(max_length=200)
 
-    def __str__(self):
-        return self.text
+class MultipleOptions(models.Model):
+    Question=models.ForeignKey(ExtraQu,on_delete=models.CASCADE)
 
-class extra_ans_multiple(models.Model):
-    qus=models.ForeignKey(extra_qu,on_delete=models.CASCADE)
-    answer_text=models.CharField(max_length=250)
-
-    def __str__(self):
-        return self.answer_text
-
-class multiple_options(models.Model):
+class MultipleOptionsData(models.Model):
+    multiple_add=models.ForeignKey(MultipleOptions,on_delete=models.CASCADE,related_name='options')
     option=models.CharField(max_length=150)
-    Question=models.ForeignKey(extra_qu,on_delete=models.CASCADE)
 
-class extra_ans_descriptive(models.Model):
-    qus=models.ForeignKey(extra_qu,on_delete=models.CASCADE)
+class ExtraAns(models.Model):
+    form_id=models.ForeignKey(MainForm,on_delete=models.CASCADE)
+class ExtraAnsData(models.Model):
+    extra_answers=models.ForeignKey(ExtraAns,on_delete=models.CASCADE,related_name='answers')
     answer_text=models.CharField(max_length=250)
-
-    def __str__(self):
-        return self.answer_text
-
-class extra_ans_file(models.Model):
-    qus=models.ForeignKey(extra_qu,on_delete=models.CASCADE)
-    answer_text=models.FileField()
-
-    def __str__(self):
-        return self.answer_text
-
-class extra_ans_date(models.Model):
-    qus=models.ForeignKey(extra_qu,on_delete=models.CASCADE)
-    answer_text=models.DateField()
-
-    def __str__(self):
-        return self.answer_text
-
+    qus=models.ForeignKey(ExtraQu,on_delete=models.CASCADE)

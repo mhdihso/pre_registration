@@ -10,6 +10,6 @@ urlpatterns = [
     path('fill/<int:id>',views.pre_registrationformDetail.as_view()),
     path('create/extra_field',views.ExtrafieldCreate.as_view()),
     path('create/extra_field/<int:id>',views.ExtrafieldDetail.as_view()),
-    path('create/extra_filed/options',views.AddptionsCreate.as_view()),
-    path('create/extra_filed/options/<int:id>',views.AddptionsDetail.as_view()),
+    path('create/extra_field/answer',views.Extraanswer.as_view()),
+    path('create/extra_field/options',views.AddoptionsCreate.as_view()),
 ]

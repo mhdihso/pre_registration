@@ -13,6 +13,9 @@ urlpatterns = [
     path('create/extra_fields/<int:id>',views.ExtrafieldList.as_view()),
     path('create/extra_field/<int:id>',views.ExtrafieldDetail.as_view()),
     path('create/extra_field/answer',views.ExtraanswerCreate.as_view()),
+    path('create/extra_field/answers',views.ExtraanswerList.as_view()),
     path('create/extra_field/answer',views.ExtraanswerDetail.as_view()),
-    path('create/extra_field/options',views.AddoptionsCreate.as_view()),
+    path('create/extra_field/addoptions',views.Addoptions.as_view()),
+    path('create/extra_field/options',views.optionsList.as_view()),
+
 ]

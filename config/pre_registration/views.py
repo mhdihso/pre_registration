@@ -56,23 +56,35 @@ class pre_registrationformDetail(RetrieveUpdateDestroyAPIView):
     permission_classes=[IsAdminUser]
 
 class ExtrafieldDetail(RetrieveUpdateDestroyAPIView):
+
+    def get_queryset(self):
+        return models.ExtraQu.objects.filter(form_id=self.kwargs['id'])
+
     lookup_field = 'id'
-    queryset= models.ExtraQu.objects.all()
     serializer_class= serialaizers.ExtrafieldSerialaizer 
     permission_classes= [IsAdminUser]
     
 class ExtrafieldCreate(CreateAPIView):
-    
+
     serializer_class=serialaizers.ExtrafieldSerialaizer 
     permission_classes=[IsAdminUser]
 
 class ExtrafieldList(ListAPIView):
-    queryset= models.ExtraQu.objects.all()
+
+    def get_queryset(self):
+        return models.ExtraQu.objects.filter(form_id=self.kwargs['id'])
+
     serializer_class=serialaizers.ExtrafieldSerialaizer 
     permission_classes=[IsAdminUser]
 
-class AddoptionsCreate(ListCreateAPIView):
+
+class optionsList(ListAPIView):
     queryset=models.MultipleOptions.objects.all()
+    serializer_class=serialaizers.Addoptionsserialaizer
+    permission_classes=[IsAdminUser]
+
+
+class Addoptions(CreateAPIView):
     serializer_class=serialaizers.Addoptionsserialaizer
     permission_classes=[IsAdminUser]
 
@@ -102,14 +114,18 @@ class AddoptionsCreate(ListCreateAPIView):
             return {}
 
 
-class AddoptionsDetail(RetrieveUpdateDestroyAPIView):
+class optionDetail(RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
     queryset=models.MultipleOptions.objects.all()
     serializer_class=serialaizers.Addoptionsserialaizer
     permission_classes=[IsAdminUser]
 
-class ExtraanswerCreate(ListCreateAPIView):
+class ExtraanswerList(ListAPIView):
     queryset=models.ExtraAns.objects.all()
+    serializer_class=serialaizers.Answer_dataserialaizer
+    permission_classes=[IsAdminUser]
+
+class ExtraanswerCreate(CreateAPIView):
     serializer_class=serialaizers.Answer_dataserialaizer
     permission_classes=[IsAdminUser]
 

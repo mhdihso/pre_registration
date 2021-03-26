@@ -4,7 +4,8 @@ class PreRegistration(models.Model):
     subject=models.CharField(max_length=250)
     price=models.PositiveIntegerField(default=None)
     Created_at=models.DateTimeField(auto_now_add=True)
-
+    # school = models.ForeignKey("management.School", on_delete=models.CASCADE)
+    
     def __str__(self):
         st=self.id
         stri=str(st)

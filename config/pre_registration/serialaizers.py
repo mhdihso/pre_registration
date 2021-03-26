@@ -6,12 +6,12 @@ from . import models
 class pre_registrationserialaizer(serializers.ModelSerializer):
     class Meta:
         model=models.PreRegistration
+        read_only_fields = ['Created_at', ]
         fields='__all__'
 
 class Createpre_registrationserialaizer(serializers.ModelSerializer):
     class Meta:
         model = models.MainForm
-        read_only_fields = ['extra_qus', ]
         fields= '__all__'
 
 class ExtrafieldSerialaizer(serializers.ModelSerializer):

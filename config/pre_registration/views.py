@@ -2,31 +2,56 @@ from django.http import request
 from rest_framework import permissions, response, status, views, authentication, generics
 from django.shortcuts import render
 from . import serialaizers
-from rest_framework.generics import ListCreateAPIView , RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView , RetrieveUpdateDestroyAPIView , ListAPIView,CreateAPIView
 from . import models 
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.settings import api_settings
 from rest_framework.response import Response
 
 class pre_registrationsCreate(ListCreateAPIView):
+
+    # def get_queryset(self):
+    #     return models.PreRegistration.objects.filter(school_id=self.request.user.school_id).select_related('user')
+
     queryset= models.PreRegistration.objects.all()
     serializer_class = serialaizers.pre_registrationserialaizer
     permission_classes = [IsAdminUser]
 
 class pre_registrationsDetail(RetrieveUpdateDestroyAPIView):
+
+    # def get_queryset(self):
+    #     return models.PreRegistration.objects.filter(school_id=self.request.user.school_id).select_related('user')
+
     lookup_field = 'id'
     queryset= models.PreRegistration.objects.all()
     serializer_class=serialaizers.pre_registrationserialaizer
     permission_classes=[IsAdminUser]
 
-class pre_registrationformCreate(ListCreateAPIView):
-    queryset=models.MainForm.objects.all()
+class pre_registrationformCreate(CreateAPIView):
+
+    serializer_class=serialaizers.Createpre_registrationserialaizer
+    permission_classes=[IsAdminUser]
+
+class pre_registrationformList(ListAPIView):
+
+    # def get_queryset(self , *args, **kwargs):
+    #     return models.MainForm.objects.filter(pre_id.shool_id=self.request.user.school_id),pre_id=self.kwargs['id'])
+
+    def get_queryset(self , *args, **kwargs):
+        return models.MainForm.objects.filter(pre_id=self.kwargs['id'])
+
     serializer_class=serialaizers.Createpre_registrationserialaizer
     permission_classes=[IsAdminUser]
 
 class pre_registrationformDetail(RetrieveUpdateDestroyAPIView):
+
+    # def get_queryset(self , *args, **kwargs):
+    #     return models.MainForm.objects.filter(pre_id.shool_id=self.request.user.school_id),pre_id=self.kwargs['id'])
+
+    def get_queryset(self , *args, **kwargs):
+        return models.MainForm.objects.filter(pre_id=self.kwargs['id'])
+    
     lookup_field = 'id'
-    queryset=models.MainForm.objects.all()
     serializer_class=serialaizers.Createpre_registrationserialaizer
     permission_classes=[IsAdminUser]
 
@@ -36,7 +61,12 @@ class ExtrafieldDetail(RetrieveUpdateDestroyAPIView):
     serializer_class= serialaizers.ExtrafieldSerialaizer 
     permission_classes= [IsAdminUser]
     
-class ExtrafieldCreate(ListCreateAPIView):
+class ExtrafieldCreate(CreateAPIView):
+    
+    serializer_class=serialaizers.ExtrafieldSerialaizer 
+    permission_classes=[IsAdminUser]
+
+class ExtrafieldList(ListAPIView):
     queryset= models.ExtraQu.objects.all()
     serializer_class=serialaizers.ExtrafieldSerialaizer 
     permission_classes=[IsAdminUser]
@@ -78,7 +108,7 @@ class AddoptionsDetail(RetrieveUpdateDestroyAPIView):
     serializer_class=serialaizers.Addoptionsserialaizer
     permission_classes=[IsAdminUser]
 
-class Extraanswer(ListCreateAPIView):
+class ExtraanswerCreate(ListCreateAPIView):
     queryset=models.ExtraAns.objects.all()
     serializer_class=serialaizers.Answer_dataserialaizer
     permission_classes=[IsAdminUser]
@@ -114,3 +144,8 @@ class Extraanswer(ListCreateAPIView):
             return {'Location': str(data[api_settings.URL_FIELD_NAME])}
         except (TypeError, KeyError):
             return {}
+
+class ExtraanswerDetail(RetrieveUpdateDestroyAPIView):
+    queryset=models.ExtraAns.objects.all()
+    serializer_class=serialaizers.Answer_dataserialaizer
+    permission_classes=[IsAdminUser]
